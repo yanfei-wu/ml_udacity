@@ -8,6 +8,7 @@ Built a regression model to predict the value of a given house in the Boston rea
 
 **Keywords:** statistical analysis, metric performance, cross validation, bias/variance tradeoffs, learning curves, model complexity  
 
+---  
 
 ## Project 2: Finding Donors for CharityML (`finding_donors/`) 
 ### Overview 
@@ -15,6 +16,7 @@ Investigated factors that affect the likelihood of charity donations being made 
 
 **Keywords:** classification, logistic regression, decision trees, ensemble methods, model tuning 
 
+---  
 
 ## Project 3: Creating Customer Segments (`customer_segments/`) 
 ### Overview 
@@ -22,11 +24,14 @@ Reviewed unstructured data to understand the patterns and natural categories tha
 
 **Keywords**: clustering, pca, feature selection, k means, gaussian mixture model 
 
+---  
+
 ## Project 4: Classify Images using Neural Network (`image_classification/`) 
 ### Overview 
 Classified images from the CIFAR-10 dataset. The dataset was preprocessed (image normalization, label one-hot encoding), then trained a convolutional neural network with convolutional layer, max pool layer and fully connected layer on all the samples. The model was then evaluated on test samples. 
 
 **Keywords:** classification, convolutional neural network, tensorflow 
 
+---  
 
 
