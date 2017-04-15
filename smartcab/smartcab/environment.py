@@ -50,8 +50,8 @@ class Environment(object):
         self.hang = 0.6
         self.intersections = OrderedDict()
         self.roads = []
-        for x in xrange(self.bounds[0], self.bounds[2] + 1):
-            for y in xrange(self.bounds[1], self.bounds[3] + 1):
+        for x in range(self.bounds[0], self.bounds[2] + 1):
+            for y in range(self.bounds[1], self.bounds[3] + 1):
                 self.intersections[(x, y)] = TrafficLight()  # A traffic light at each intersection
 
         for a in self.intersections:
@@ -62,15 +62,15 @@ class Environment(object):
                     self.roads.append((a, b))
 
         # Add environment boundaries
-        for x in xrange(self.bounds[0], self.bounds[2] + 1):
+        for x in range(self.bounds[0], self.bounds[2] + 1):
             self.roads.append(((x, self.bounds[1] - self.hang), (x, self.bounds[1])))
             self.roads.append(((x, self.bounds[3] + self.hang), (x, self.bounds[3])))
-        for y in xrange(self.bounds[1], self.bounds[3] + 1):
+        for y in range(self.bounds[1], self.bounds[3] + 1):
             self.roads.append(((self.bounds[0] - self.hang, y), (self.bounds[0], y)))
             self.roads.append(((self.bounds[2] + self.hang, y), (self.bounds[2], y)))    
 
         # Create dummy agents
-        for i in xrange(self.num_dummies):
+        for i in range(self.num_dummies):
             self.create_agent(DummyAgent)
 
         # Primary agent and associated parameters
@@ -92,7 +92,7 @@ class Environment(object):
         """ When called, create_agent creates an agent in the environment. """
 
         agent = agent_class(self, *args, **kwargs)
-        self.agent_states[agent] = {'location': random.choice(self.intersections.keys()), 'heading': (0, 1)}
+        self.agent_states[agent] = {'location': random.choice(list(self.intersections.keys())), 'heading': (0, 1)}
         return agent
 
     def set_primary_agent(self, agent, enforce_deadline=False):
@@ -113,17 +113,17 @@ class Environment(object):
         self.step_data = {}
 
         # Reset traffic lights
-        for traffic_light in self.intersections.itervalues():
+        for traffic_light in self.intersections.values():
             traffic_light.reset()
 
         # Pick a start and a destination
-        start = random.choice(self.intersections.keys())
-        destination = random.choice(self.intersections.keys())
+        start = random.choice(list(self.intersections.keys()))
+        destination = random.choice(list(self.intersections.keys()))
 
         # Ensure starting location and destination are not too close
         while self.compute_dist(start, destination) < 4:
-            start = random.choice(self.intersections.keys())
-            destination = random.choice(self.intersections.keys())
+            start = random.choice(list(self.intersections.keys()))
+            destination = random.choice(list(self.intersections.keys()))
 
         start_heading = random.choice(self.valid_headings)
         distance = self.compute_dist(start, destination)
@@ -139,7 +139,7 @@ class Environment(object):
                 positions[location].append(heading)
 
         # Initialize agent(s)
-        for agent in self.agent_states.iterkeys():
+        for agent in self.agent_states.keys():
 
             if agent is self.primary_agent:
                 self.agent_states[agent] = {
@@ -151,7 +151,7 @@ class Environment(object):
             # For dummy agents, make them choose one of the available 
             # intersections and headings still in 'positions'
             else:
-                intersection = random.choice(positions.keys())
+                intersection = random.choice(list(positions.keys()))
                 heading = random.choice(positions[intersection])
                 self.agent_states[agent] = {
                     'location': intersection,
@@ -193,12 +193,12 @@ class Environment(object):
         if self.primary_agent is not None:
             self.primary_agent.update()
 
-        for agent in self.agent_states.iterkeys():
+        for agent in self.agent_states.keys():
             if agent is not self.primary_agent:
                 agent.update()
 
         # Update traffic lights
-        for intersection, traffic_light in self.intersections.iteritems():
+        for intersection, traffic_light in self.intersections.items():
             traffic_light.update(self.t)
 
         if self.primary_agent is not None:
@@ -234,7 +234,7 @@ class Environment(object):
         oncoming = None
         left = None
         right = None
-        for other_agent, other_state in self.agent_states.iteritems():
+        for other_agent, other_state in self.agent_states.items():
             if agent == other_agent or location != other_state['location'] or (heading[0] == other_state['heading'][0] and heading[1] == other_state['heading'][1]):
                 continue
             # For dummy agents, ignore the primary agent
