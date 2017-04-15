@@ -1,21 +1,25 @@
-# Machine Learning Engineer Nanodegree
-# Reinforcement Learning
-## Project: Train a Smartcab How to Drive
+# Train a Smartcab How to Drive 
 
-### Install
+## Overview 
+In this project, I applied reinforcement learning techniques for a self-driving agent in a simplified world to aid it in effectively reaching its destinations in the allotted time.  
 
-This project requires **Python 2.7** with the [pygame](https://www.pygame.org/wiki/GettingStarted
-) library installed
+The environment the agent operates in was investigated by constructing a very basic driving implementation. Each possible state the agent can be in was identified by considering such things as traffic lights and oncoming traffic at each intersection. With states identified, a Q-Learning algorithm was implemented for the self-driving agent to guide the agent towards its destination within the allotted time. The Q-Learning algorithm was also optimized to find the best configuration of learning and exploration factors to ensure the self-driving agent is reaching its destinations with consistently positive results. 
 
-### Code
+**Keywords**: Reinforcement Learning, Q-Learning, agent, environment, state  
 
-Template code is provided in the `smartcab/agent.py` python file. Additional supporting python code can be found in `smartcab/enviroment.py`, `smartcab/planner.py`, and `smartcab/simulator.py`. Supporting images for the graphical user interface can be found in the `images` folder. While some code has already been implemented to get you started, you will need to implement additional functionality for the `LearningAgent` class in `agent.py` when requested to successfully complete the project. 
+## Libraries 
+This project was done using **Python 3.5** and the following Python libraries: 
 
-### Run
+- Numpy 
+- Pandas 
+- Matplotlib 
+- PyGame (install on Mac by running `pip install pygame==1.9.2`) 
 
-In a terminal or command window, navigate to the top-level project directory `smartcab/` (that contains this README) and run one of the following commands:
+
+## Run  
+
+In a terminal or command window, navigate to the top-level project directory `smartcab/` (that contains this README) and run one of the following commands: 
 
 ```python smartcab/agent.py```  
-```python -m smartcab.agent```
+```python -m smartcab.agent``` 
 
-This will run the `agent.py` file and execute your agent code.
