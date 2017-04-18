@@ -36,6 +36,6 @@ Classified images from the CIFAR-10 dataset. The dataset was preprocessed (image
 
 ## Project 5: Classify Images using Neural Network (`smartcab/`) 
 ### Overview 
-Applied reinforcement learning techniques for a self-driving agent in a simplified world to aid it in effectively reaching its destinations in the allotted time. Identified the environment the driving agent operates in and the possible states the agent can be in. Implemented and optimized a Q-Learning algorithm to guide the agent towards its destination with consistently positive results. 
+Applied reinforcement learning to build a simulated vehicle navigation agent. Identified the environment the agent operates in and the possible states the agent can be in. Implemented and optimized a Q-Learning algorithm to allow the agent to automatically learn an optimal driving strategy based on rewards and penalties. 
 
 **Keywords:** reinforcement learning, q-learning 
