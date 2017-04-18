@@ -5,7 +5,7 @@ In this project, I applied reinforcement learning techniques for a self-driving 
 
 The environment the agent operates in was investigated by constructing a very basic driving implementation. Each possible state the agent can be in was identified by considering such things as traffic lights and oncoming traffic at each intersection. With states identified, a Q-Learning algorithm was implemented for the self-driving agent to guide the agent towards its destination within the allotted time. The Q-Learning algorithm was also optimized to find the best configuration of learning and exploration factors to ensure the self-driving agent is reaching its destinations with consistently positive results. 
 
-**Keywords**: Reinforcement Learning, Q-Learning, agent, environment, state  
+**Keywords**: Reinforcement Learning, Q-Learning 
 
 ## Libraries 
 This project was done using **Python 3.5** and the following Python libraries: 

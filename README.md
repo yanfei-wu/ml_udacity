@@ -38,4 +38,4 @@ Classified images from the CIFAR-10 dataset. The dataset was preprocessed (image
 ### Overview 
 Applied reinforcement learning techniques for a self-driving agent in a simplified world to aid it in effectively reaching its destinations in the allotted time. Identified the environment the driving agent operates in and the possible states the agent can be in. Implemented and optimized a Q-Learning algorithm to guide the agent towards its destination with consistently positive results. 
 
-**Keywords:** reinforcement learning, q-learning, agent, environment, state 
+**Keywords:** reinforcement learning, q-learning 
