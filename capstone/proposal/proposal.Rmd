@@ -15,12 +15,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Recruiting excellent employees is one thing, but keeping them is another. While losing employees who are poor performers can have positive effects, high employee turnover rate is generally regarded as bad for the business. It increases expenses since the process of identifying, hiring and training employees is very expensive. Studies have shown that cost related to directly replacing an employee can be as high as 50–60% of the employee’s annual salary, and the total cost of turnover can reach as high as 90–200% of the employee’s annual salary.[1] Even worse, frenquent employee turnover can destroy the company morale, resulting in decreased performance in the workplace. Therefore, retaining its valuable and talented employees is vital to a company's success.  
 
-In order to implement an effective retention program and to prevent key workers from leaving prematurely, it is crucial for the management and the human resource team to understand key factors that cause the best and most experienced employees to leave. Also, having the ability to predict which valuable employee is going to leave next would allow immediate intervention and can potentially make the employee stay.   
+A novel approach to implementing an effective retention program and preventing key workers from leaving prematurely is to use machine learning techniques. For example, a supervised classification model can be trained on a dataset containing features related to the employees and whether they left (a dataset that could be available in many companies). Building such a model provides insights to key factors that result in employee turnover. It also allows the management and the human resource team to predict which employee is going to leave so that they could intervene immediately.   
 
 ### Problem Statement  
 
-By building a classification model trained on a dataset containing features potentially relevant to the employees' decisions to leave or not, the goal of this project is to help the management and the human resource team in the company  
-1). to predict which valuable employee is going to leave next so that they can intervene immediately;   
+The goal of this project is to build a supervised binary classification model using a simulated dataset containing a series of employee-related features and a binary class label of whether the employee left or not. The expected outcome of this project is to help the management and the human resource team in the company  
+1). to predict which current employee is going to leave (class label) so that they can intervene immediately;   
 2). to identify which are the most important factors (features) that lead to employee turnover so that changes can be implemented to ensure employees remain in place while maintaining high work performance and productivity.  
 
 ### Datasets and Inputs 
@@ -41,7 +41,7 @@ The target variable in the dataset is:
  
 ### Solution Statement 
 
-Based on the dataset, a binary classification model can be trained and the model can then be used to predict whether a current employee with given features will leave or not. Furthermore, feature importance analysis can be carried out to understand the most important factors that lead to employee turnover.  
+Based on the dataset, binary classification models using algorithms such as Logistic Regression, K-Nearest Neighbors, Decision Trees, and ensemble methods such as Random Forest can be trained and evaluated to find the best model for the problem. An optimized model can then be used to predict whether a current employee with given features will leave or not. Furthermore, feature importance analysis can be carried out to understand the most important factors that lead to employee turnover.  
 
 ### Benchmark Model
 A naive benchmark model for this problem would be to predict that all the employees are going to leave. In other word, we convince that the management and HR team treat every single employee as if he/she is leaving. This will probably lower the turnover rate but most of the time, it is not a realistic retention program for most companies.  
