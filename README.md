@@ -39,3 +39,11 @@ Classified images from the CIFAR-10 dataset. The dataset was preprocessed (image
 Applied reinforcement learning to build a simulated vehicle navigation agent. Identified the environment the agent operates in and the possible states the agent can be in. Implemented and optimized a Q-Learning algorithm to allow the agent to automatically learn an optimal driving strategy based on rewards and penalties. 
 
 **Keywords:** reinforcement learning, q-learning 
+
+---  
+
+## Project 6: Machine Learning for Employee Retention (`capstone/`) 
+### Overview 
+Capstone project for this Nanodegree. Explored a machine learning approach for an effective employee retention program. Built and evaluated a variety of supervised classification algorithms to predict whether an employee with given features is leaving or not. Identified the most important features that lead to employee turnover. This project provides actional insights to the management and human resource team to ensure their key workers remain in place. 
+
+**Keywords:** supervised learning, binary classification, cross validation, model refinement, feature importance
