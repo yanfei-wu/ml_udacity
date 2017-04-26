@@ -1,32 +1,34 @@
 ---
 title: "Machine Learning for Employee Retention"
 author: "Yanfei Wu"
-date: "4/25/2017"
+date: "4/26/2017"
 output:
   pdf_document: default
   word_document: default
 subtitle: Capstone Project of Udacity Machine Learning Engineer Nanodegree
 linkcolor: blue
+toc: yes
 ---
 
 
 ## 1. Introduction    
 
 ### 1.1 Background  
-Recruiting excellent employees is one thing, but keeping them is another. While losing employees who are poor performers can have positive effects, high employee turnover rate is generally regarded as bad for the business. It increases expenses since the process of identifying, hiring and training employees is very expensive. Studies have shown that cost related to directly replacing an employee can be as high as 50–60% of the employee’s annual salary, and the total cost of turnover can reach as high as 90–200% of the employee’s annual salary.[1] Even worse, frenquent employee turnover can destroy the company morale, resulting in decreased performance in the workplace. Therefore, retaining its valuable and talented employees is vital to a company's success.  
+Recruiting excellent employees is one thing, but keeping them is another. While losing employees who are poor performers can have positive effects, high employee turnover rate is generally regarded as bad for the business. It increases expenses since the process of identifying, hiring and training employees is very expensive. Studies have shown that cost related to directly replacing an employee can be as high as 50–60% of the employee’s annual salary, and the total cost of turnover can reach as high as 90–200% of the employee’s annual salary.[1] Even worse, frequent employee turnover can destroy the company morale, resulting in decreased performance in the workplace. Therefore, retaining its valuable and talented employees is vital to a company's success.  
 
 A novel approach to implementing an effective retention program and preventing key workers from leaving prematurely is to use machine learning techniques. For example, a supervised classification model can be trained on a dataset containing features related to the employees and whether they left the company (a dataset that is available to many companies). Building such a model provides insights to key factors that result in employee turnover. It also allows the management and the human resource team to predict which employee is going to leave so that they could intervene immediately.  
 
 ### 1.2 Problem Statement    
 The goal of this project is to build a supervised binary classification model. A simulated dataset containing a series of employee-related features and a binary class label of whether the employee left or not is used. This dataset is available in [**Kaggle**](https://www.kaggle.com/ludobenistant/hr-analytics). 
 
-By building a such classification model with this dataset, the expected outcome of this project is to help the management and the human resource team:   
-1). predict which current employee is going to leave (class label) so that they could intervene immediately;   
-2). identify which are the most important factors (features) that lead to employee turnover so that changes can be implemented to ensure employees remain in place while maintaining high work performance and productivity.  
+By building a such classification model with this dataset, the expected outcome of this project is to help the management and the human resource team:  
+  
+1. predict which current employee is going to leave (class label) so that they could intervene immediately;
+2. identify which are the most important factors (features) that lead to employee turnover so that changes can be implemented to ensure employees remain in place while maintaining high work performance and productivity.  
 
 ### 1.3 Metrics 
 
-Typically, the performance of a classification model can be measured by accuracy, which is defined as the number of correct predictions from all the predictions made. But in this case it is not the best metric due to the class imbalance (~25% class 'left' vs ~75% class 'stay'). Instead, we can use the a combination of precision and recall as an unambiguous way to show the prediction results of the classifiers. Precision is the number of True Positives (TP) divided by the number of True Positives (TP) and False Positives (FP). A low precision indicate a large number of False Positives.    
+Typically, the performance of a classification model can be measured by accuracy, which is defined as the number of correct predictions from all the predictions made. But in this case, it is not the best metric due to the class imbalance (~25% class 'left' vs ~75% class 'stay'). Instead, we can use a combination of precision and recall as an unambiguous way to show the prediction results of the classifiers. Precision is the number of True Positives (TP) divided by the number of True Positives (TP) and False Positives (FP). A low precision indicates a large number of False Positives.    
 
 $$ precision = \frac{TP}{TP + FP} $$ 
 
@@ -40,12 +42,28 @@ In this specific problem, we would rather make false positive predictions than f
 $$ F_{2} = (1 + \beta^2) \cdot \frac{precision \cdot recall}{\left( \beta^2 \cdot precision \right) + recall}, \beta = 2 $$   
 
 ***   
+\newpage
 
 ## 2. Analysis  
 
 ### 2.1 Data Exploration  
 
-The dataset contains 14,999 rows and 10 columns. The features include:   
+The dataset contains 14,999 rows and 10 columns. The first 3 rows of the dataset is displayed below:  
+
+satisfaction_level|last_evaluation|number_project|average_monthly_hours|time_spend_company
+------------------|---------------|--------------|---------------------|------------------
+0.38              |0.53           |2             |157                  |3
+0.80              |0.86           |5             |262                  |6
+0.11              |0.88           |7             |272                  |4
+
+work_accident|left |promotion_last_5years|department|salary
+-------------|-----|---------------------|----------|-------
+0            |1    |0                    |sales     |low
+0            |1    |0                    |sales     |medium
+0            |1    |0                    |sales     |medium
+
+
+The features in this dataset include:   
 
 * `'satisfaction_level'`: employee satisfaction level (numerical, float numbers between 0 and 1)
 * `'last_evaluation'`: the score from the employee's last evaluation (numerical, float numbers between 0 and 1)
@@ -57,7 +75,15 @@ The dataset contains 14,999 rows and 10 columns. The features include:
 * `'sales'`: the Department the employee works (categorical, 'sales', 'accounting', 'hr', 'technical', 'support', 'management', 'IT', 'product_mng', 'marketing', 'RandD')
 * `'salary'`: the salary of the employee (categorical, 'low', 'medium', 'high')
 
-*Note that we have a combination of numerical features and categorical features.* They need to be treated differently.
+*Note that we have a combination of numerical features and categorical features.* They need to be treated differently. Some descriptive statistics of the numerical features are shown in the table below:  
+
+numerical features   |count|mean   |std   |min   |25%    |50%    |75%    |max	
+---------------------|-----|-------|------|------|-------|-------|-------|-------
+satisfaction_level   |14999|0.613  |0.249 |0.090 |0.440  |0.640  |0.820  |1.000 
+last_evaluation	     |14999|0.716  |0.171 |0.360 |0.560  |0.720	 |0.870  |1.000
+number_project	     |14999|3.803  |1.233 |2.000 |3.000  |4.000  |5.000  |7.000
+average_monthly_hours|14999|201.050|49.943|96.000|156.000|200.000|245.000|310.000
+time_spend_company	 |14999|3.498  |1.460 |2.000 |3.000  |3.000	 |4.000  |10.000 
 
 The target variable in the dataset is:    
   
@@ -95,18 +121,18 @@ A correlation matrix of the dataset (excluding `'department'`) is shown below.
 
 ### 2.3 Algorithms and Techniques 
 
-It is a binary classification prlblem and there are a number of algorithms available in the `scikit-learn` library. To find the best model for the problem, the following algirithms are used to train the dataset:   
+It is a binary classification problem and there are a number of algorithms available in the `scikit-learn` library. To find the best model for the problem, the following algirithms are used to train the dataset:   
   
-1. Logistic Regression
-2. Linear Discriminant Analysis
-3. K-Nearest Neighbors
-4. Decision Trees
-5. Support Vector Machines
-6. Random Forest
+1. **Logistic Regression.** Logistic Regression is a go-to method for binary classification problem. Just like a Linear Regression, a Logistic Regression model computes a weighted sum of the input features, but instead of outputting the result directly, it outputs the logistic of the results (a number between 0 and 1 representing the probability that an instance belongs to a particular class). It is a simple and fast method and it provides a probabilistic interpretation of the classification results. It has low variance and so is less prone to overfitting. However, Logistic Regression assumes a linear decision boundary which might not be the case sometimes. Also, parameter estimation in Logistic Regression can be complicated by multicollinearity in the features.
+2. **Linear Discriminant Analysis.** Linear Discriminant Analysis is a classification algorithm. It is inherently multiclass but also works well for binary classification problems. The algorithm assumes the data is Gaussian and each attribute has the same variance. It fits the data with a Gaussian density to each class and then uses Bayes Theorem to estimate the probabilities that a new set of inputs belongs to each class. The class that gets the highest probability is the output class. The model can be easily computed, and has no hyperparameters to tune. However, it will fail if the data is significantly non-Gaussian. 
+3. **K-Nearest Neighbors.** K-Nearest Neighbors algorithm is a non-parametric method used for both classification and regression. In classification, an instance is classified by a majority vote of its neighbors, i.e., the instance is assigned to the most common class among its k nearest neighbors. It is an instance-based learning, or lazy learning, where the function is only approximated locally and all computation is deferred until classification. It is among the simplest of all machine learning algorithms. A shortcoming of K-Nearest Neighbors algorithm is that it is sensitive to the local structure (noise) of the data. 
+4. **Decision Trees.** Decision trees algorithm uses a tree-like model to predict the target values and it is capable of both regression and classification. In the case of classification trees, the leaves of the decision tree structre represent class labels and branches represent conjunctions of features that lead to those class labels. It is simple to understand and interpret. Moreover, it automatically does feature selection and variable screening and thus provides information on feature importance. However, it builds trees with a greedy algorithm where locally-optimal decisions are made at each node which does not guarantee a globally-optimal decision tree. Also, Decision Trees algorithm does not work well when the problem is essentially probabilistic. 
+5. **Support Vector Machines.** Support Vector Machines algorithm is a powerful and versitle machine learning algorithm capable of performing linear or nonlinear classification, regression, and outlier detection. It constructs a hyperplane or set of hyperplanes in a high- or infinite-dimensional space. A good separation is achieved by the hyperplane that has the largest distance to the nearest training data point of any class. New examples are then mapped into the same space and are predicted to belong to a class based on which side of the hyperplane they fall. It is effective in high dimensional spaces. Also, it is memory efficient by using a subset of training points in the decision function. However, Support Vector Machines classification does not directly provide probability estimates since it is a non-probabilistic classifier. 
+6. **Random Forest.** Random Forest algorithm is an ensemble learning method for both classification and regression. In classification tasks, it works by constructing a multitude of random decision trees at training time and outputting the class that is the mode of the classes of the individual trees. It thus corrects the overfitting problem in decision tree, resulting in high classification accuracy. Like Decision Trees, it automatically learns feature interactions and output feature importance. A downside of Random Forest algorithm is that it is computationally expensive than simple Decision Trees and the result is not as easy to interpret. 
 
-The algorithms will be evaluated out-of-box, i.e., default hyperparameters will be used. For the results to be reproducible, a random seed of 0 is used for Logistic Regression, Decision Tree, Support Vector Machines, and Random Forest. 
+All the algorithms will be evaluated out-of-box, i.e., default hyperparameters will be used. For the results to be reproducible, a random seed of 0 is used for Logistic Regression, Decision Tree, Support Vector Machines, and Random Forest. 
 
-In order to evaluate each algorithm, a 10-fold cross validation procedure is used. The dataset is evenly divided into 10 pieces. The model is trained using 9 pieces as the training set and a validation score (F2 score) is obtained from the 1 piece that is held out. By repeating the process 10 times (with a different piece serving as the validation set each time), an average validation score is obtained. Note that k-fold cross validation in default does not shuffle the data into a random order when creating the training and testing subsets. In order to remove any bias in the ordering of the dataset, the `'shuffle'` parameter is set to `True` and a random seed of 0 is used to ensure that the same splits are performed so that each algorithms is evaluated in the exact same way. 
+In order to evaluate each algorithm, a 10-fold cross validation procedure is used. The dataset is evenly divided into 10 pieces. The model is trained using 9 pieces as the training set and a validation score (F2 score) is obtained from the 1 piece that is held out. By repeating the process 10 times (with a different piece serving as the validation set each time), an average validation score is obtained. Note that k-fold cross validation in default does not shuffle the data into a random order when creating the training and testing subsets. In order to remove any bias in the ordering of the dataset, the `'shuffle'` parameter is set to `True` and a random seed of 0 is used to ensure that the same splits are performed so that each algorithm is evaluated in the exact same way. 
 
 ### 2.4 Benchmark  
 
@@ -134,71 +160,19 @@ Feature scaling or normalization is a method used to standardize the range of nu
 The detailed implementation is outlined below with Python code shown:   
   
 1. Create transformer class for feature scaling   
-
-```Python
-class FeatureTransformer(BaseEstimator, TransformerMixin): 
-
-    def __init__(self, numerical_cols):
-        self.numerical_cols = numerical_cols # a list of numerical column names
-        
-    def fit(self, X, y=None):
-        return self
-    
-    def transform(self, X):
-        '''normalize numerical columns and keep the rest of the columns the same'''
-        for col in X.columns:
-            if col in self.numerical_cols:
-                X[col] = MinMaxScaler().fit_transform(X[col])
-            else:
-                X[col] = X[col]
-        return X
-```
+As mentioned above, the numerical features need to be normalized so that each feature is treated by the learners equally. But in order to prevent data leakage, such transformation should be done in each fold of the cross validation. A simple way to automate this is to incorporate the feature normalization step in a pipeline. Therefore, a transformer class is built here which can be used for pipeline construction. The transformer takes a list of numerical column names and rescales the numerical columns with the `'MinMaxScaler'` function from `scikit-learn`. The non-numerical features are kept unchanged. 
 
 2. Create pipelines combining the transformer class and each estimator   
-
-```Python
-models = []
-models.append(('LR', make_pipeline(FeatureTransformer(numerical_cols), \
-                                   LogisticRegression(random_state=0))))
-models.append(('LDA', make_pipeline(FeatureTransformer(numerical_cols), \
-                                    LinearDiscriminantAnalysis())))
-models.append(('KNN', make_pipeline(FeatureTransformer(numerical_cols), \
-                                    KNeighborsClassifier())))
-models.append(('CART', make_pipeline(FeatureTransformer(numerical_cols), \
-                                     DecisionTreeClassifier(random_state=0))))
-models.append(('SVC', make_pipeline(FeatureTransformer(numerical_cols), \
-                                    SVC(random_state=0))))
-models.append(('RF', make_pipeline(FeatureTransformer(numerical_cols), \
-                                   RandomForestClassifier(random_state=0))))
-```
+With the feature transformer class created in the previous step, we can now build pipelines using the `'make_pipeline'` function in `scikit-learn` by incorporating the transformer as the first step and an estimator of interest (one of the 6 candidate algorithms) as the second step. These pipelines allow sequential application of feature transformation and estimator learning.
 
 3. Define F2 scoring metric   
-
-```Python
-def f2_score(y_test, y_predict):
-    '''return F2 score'''
-    return fbeta_score(y_test, y_predict, beta = 2)
-
-scorer = make_scorer(f2_score)
-```
+As introduced previously, F2 score will be used as the performance measure of the models. Here, the scoring metric is defined with the `'make_scorer'` function from `scikit-learn` so that we can later pass it to the cross validation process.
 
 4. Evaluate each model with k fold cross validation and the defined F2 metric   
-
-```Python
-results = []
-names = []
-kfold = KFold(n=len(label), n_folds=10, shuffle=True, random_state=0)
-
-for name, model in models:
-    cv_results = cross_val_score(model, features, label, cv=kfold, scoring=scorer)
-    results.append(cv_results)
-    names.append(name)
-```    
-
-For each model, cross validation outputs 10 test F2 scores. The models can be compared by creating boxplots for the scores, as shown below:    
+10-fold cross validation is used to evaluate the models. The cross validation scores are obtained from the `'cross_val_score'` function in `scikit-learn` by passing the previously defined F2 scoring metric. For each model (pipeline), the feature transformation and model learning is carried out in the training set which contains 9 folds of the data. The remaining 1 fold serves as the test set. Feature transformation is done on the test set followed by predition of the class labels. The final output is the F2 score of the prediction. This procecess repeats 10 times resulting in 10 test F2 scores for each model. The models can then be compared by creating boxplots with all cross validation scores, as shown below. The F2 score of the benchmark model is also plotted as a baseline.     
 ![Model comparison](./plots/modelcomparison.png)  
 
-Based on the comparison, Decision Tree classifier and Random Forest have the highest F2 scores, and are much better than the benchmark score. Generally, Random Forest is less likely to overfit the data, so it is chosen as the best model.  
+Based on the comparison, Decision Trees classifier and Random Forest both perform very well. They give much better F2 score than the benchmark classifier. Generally, Random Forest algorithm is less likely to overfit the data compared to Decision Trees. So in this case, it is chosen as the best model.  
 
 ### 3.3 Refinement   
 
@@ -212,23 +186,24 @@ In the case of Random Forest, one hyperparameter to tune is `'n_estimators'`, wh
 
 ### 4.1 Model Evaluation and Validation  
 
-Based on the model comparison plot above, Random Forest Classifier is chosen since it gives the best F2 score. After fine tuning the hyperparameters, the final Random Forest classifier (with 50 decision trees) gives an even higher F2 score. 
+Based on the model comparison plot above, Random Forest classifier is chosen since it gives the best F2 score. After fine tuning the hyperparameters, the final Random Forest classifier (constructed with 50 random decision trees) gives an even higher F2 score. 
 
-The discrepency between training score and test scores is also evaluated by first randomly splitting the original dataset to 20% test set and 80% training set and then training the model with different training size. The learning curves for training and testing are compared below. The learning curves converge as the number of training points increases. With 100% of the training data (80% of the original dataset) used for training the model, the training score and the test score are close, indicating that the model generalizes well to unseen data.  
+To determinine the robustness of the final model, the discrepency between training score and test scores is evaluated by first randomly splitting the original dataset to 20% test set and 80% training set and then training the model with different training size. The learning curves for training and testing are compared below. The learning curves converge as the number of training points increases. With 100% of the training data (80% of the original dataset) used for training the model, the training score and the test score are close, indicating that the model generalizes well to unseen data.  
 ![Learning Curve](./plots/learningcurve.png)  
-With the Random Forest model trained on all the training data, the confusion matrix of the prediction on the test set is obtained to be  
+\newpage
+With the Random Forest model trained on all the training data, a confusion matrix of the prediction on the test set is obtained, as shown below. Each column of the matrix represents the instances in a predicted class while each row represents the instances in an actual class.  
 
 0 (predicted) | 1 (predicted)
 --------------|--------------
- 2293 (TN)    | 6 (FP)
- 27 (FN)      | 674 (TP)
+ 2294 (TN)    | 5 (FP)
+ 20 (FN)      | 681 (TP)
 
 
-The above prediction results indicate precision of 0.9912 and recall of 0.9615. 
+The above prediction results indicate precision of 0.9927 and recall of 0.9715. 
 
-Overall, the final Random Forest model generalizes well to unseen data. It gives a much higher F2 score than the benchmark model. As discussed above, the benchmark model is not realistic although it might help to reduce employee turnover rate. The Random Forest classifier, however, is able to correctly identify over 96% of the employees who are leaving. Furthermore, the precision of the prediction is not sacrificed with the high recall. Instead, over 99% of precision is achieved. So, with this synthesized dataset, the Random Forest model performs extremely well.   
+Overall, the final Random Forest model generalizes well to unseen data. It gives a much higher F2 score than the benchmark model. As discussed above, the benchmark model is not realistic although it might help to reduce employee turnover rate. The Random Forest classifier, however, is able to correctly identify over 97% of the employees who are leaving. Furthermore, the precision of the prediction is not sacrificed with the high recall. Instead, over 99% of precision is achieved. So, with this synthesized dataset, the Random Forest model performs extremely well.   
 
-However, this kind of results seem too good to be true in reality, especially with the messiness of real-world data. Also, it is reasonable to believe that employee turnover characteristic would be different for each individual company, or at least for each type of industry. Therefore, this specific model obtained here is likely not suitable for specific companies out there. Nevertheless, the general machine learning approach describe here should be a good practice in reality.      
+However, this kind of results seem too good to be true in reality. But data leakage should not be a problem here since feature normalization is performed on each fold of cross validation instead of on the entire dataset. So, one possible explanation for this exceptionally good result could be that the synthesized dataset is just too ideal. The real-world data is normally a lot messier. Also, it is reasonable to believe that employee turnover characteristic would be different for each individual company, or at least for each type of industry. Therefore, this specific model obtained here is likely not suitable for specific companies out there. Nevertheless, the general machine learning approach described here should be a good practice in reality.      
 
 ***   
 
@@ -236,9 +211,10 @@ However, this kind of results seem too good to be true in reality, especially wi
 
 ### 5.1 Feature Importance    
 
-With a classification model like the Random Forest Classifier built above, employers is able to predict if a current employee is leaving such that immediate internvention can take place. Another key information for an effective retention program is the knowledge of the most important factors on employee turnover. Luckily, with Random Forest Classifier, we can easily obtain the feature importance.  
+With a classification model like the Random Forest classifier built above, management and human resource team are now able to predict if a current employee is leaving so that they can take immediate internvention. Another key information for an effective employee retention program is the knowledge of the most important factors on employee turnover. Luckily, with Random Forest classifier, we can easily obtain the feature importance from a trained model. A barplot of the top 5 features from the optimized Random Forest model trained on the entire training set is shown below.   
+
+Thses 5 features consists about **95%** of the total feature importance. `'satisfaction_level'` is determined to be the most important feature, which is consistant with its high correlation coefficient with the target variable `'left'` as shown in the correlation matrix. The other features highly relevant to employee turnover are `'average_monthly_hours'`, `'number_project'`, `'time_spend_company'`, and `'last_evaluation'`.   
 ![Feature importance](./plots/featureimportance.png)  
-The top 5 features from the optimized Random Forest model trained on the training set is shown in the bar plot above. Thses 5 features consists over **95%** of the feature importance. `'satisfaction_level'` is the most important feature which is consistant with its high correlation coefficient with the target variable `'left'`. The other features highly relevant to employee turnover are `'average_monthly_hours'`, `'number_project'`, `'time_spend_company'`, and `'last_evaluation'`.   
 
 We can also use three out of the top 5 features to create a 3D visualization.  For example, a 3D visualization using features including `'satisfaction_level'`, `'average_monthly_hours'` and `'last_evaluation'` reveals an interesting fact, that is the majority of employees who left belong to three distinct groups categorized as:  
   
@@ -253,15 +229,15 @@ First of all, management and human resource team should pay extra attention to e
 
 ### 5.2 Reflection  
 
-To summarize, this project outlines a machine learning approach to help implement an effective employee retention program. A synthesized dataset containing both numerical and categorical features of the employees, as well as a binary label of whether the employee left or not is used to build a binary classification model. The categorical features are transformed to numerical values by one-hot encoding. The numerical features are rescaled to the same range (0 to 1) so that the learners can treat each feature equally. Different classification algorithms including Logistic Regression, Linear Discriminant Analysis, Decision Trees, K-nearest Neighbors, Support Vector Machines, and Random Forest are compared. The performance of the models are measured by the F2 score in order to put more weights on recall. K fold cross validation procedure is implemented to evaluate the models. Random Forest classifier is chosen as it gives the best cross validation F2 score. The model is further tuned using `GridSearchCV`. The final model shows excellent F2 score (much better than the naive benchmark classifier) and appears to be generalizable to unseen data. With this classification model, we can predict whether a current employee will leave given the features of the employee. Feature importance analysis reveals the top 5 features, which consist over 95% of the total importance. These top features can help management and human resource team understand why their emplpyees leave.  
+To summarize, this project outlines a machine learning approach to help implement an effective employee retention program. A synthesized dataset containing both numerical and categorical features of the employees, as well as a binary label of whether the employee left or not is used to build a binary classification model. The categorical features are transformed to numerical values by one-hot encoding. The numerical features are rescaled to the same range (0 to 1) so that the learners can treat each feature equally. Different classification algorithms including Logistic Regression, Linear Discriminant Analysis, Decision Trees, K-nearest Neighbors, Support Vector Machines, and Random Forest are compared. The performance of the models are measured by the F2 score in order to put more weights on recall. K fold cross validation procedure is implemented to evaluate the models. Random Forest classifier is chosen as it gives the best cross validation F2 score. The model is further tuned using `GridSearchCV`. The final model shows excellent F2 score (much better than the naive benchmark classifier) and appears to be generalizable to unseen data. With this classification model, we can predict whether a current employee will leave given the features of the employee. Feature importance analysis reveals the top 5 features, which consist about 95% of the total importance. These top features can help management and human resource team understand why their emplpyees leave.  
 
-One potential issue for this kind of problem is the class imbalance in the dataset. In this particular dataset, the minory class (class of employees who left) consists of less than 25% of the entire dataset. This class imbalance is almost always the case because of the nature of employee turnover. Sometimes, this number can be even smaller, e.g., below 10%. Such class imbalance requires a careful selection of performance metric. As discussed earlier, accuracy is not the metric to use when working with imbalanced dataset. Instead,  performance measures that give more insight into the prediction results include precision, recall, or the weighted average of the two, e.g., F2 score. Other approaches for dealing with imbalanced dataset are oversampling (when the minority class is oversampled),  undersampling (when the majority class is undersampled), and Synthetic Minority Over-sampling Technique (creating synthetic samples from the minority class). 
+One potential issue for this kind of problem is the class imbalance in the dataset. In this particular dataset, the minory class (class of employees who left) consists of less than 25% of the entire dataset. This class imbalance is almost always the case because of the nature of employee turnover. Sometimes, this number can be even smaller, e.g., below 10%. Such class imbalance requires a careful selection of performance metric. As discussed earlier, accuracy is not the metric to use when working with imbalanced dataset. Instead, performance measures that give more insight into the prediction results include precision, recall, or the weighted average of the two, e.g., F2 score. Other approaches for dealing with imbalanced dataset are oversampling (when the minority class is oversampled), undersampling (when the majority class is undersampled), and Synthetic Minority Over-sampling Technique (creating synthetic samples from the minority class). 
 
 ### 5.3 Improvement  
 
 The final model trained on this specific synthesized dataset shows excellent prediction performance. However, as discussed above, the results seem too good to be true. The real-world dataset is likely to be much messier. To obtain a more realistic performance measure for this kind of supervised learning approach, I think one way is to add random noise to the current dataset.   
 
-Besides, the current model predicts the class labels: left or stay. An alternative is to output the class probability instead of the class label. This affords the management and human resource teams more flexibility as they can specifies a customized probability threshold when deciding on intervention.     
+Besides, the current model predicts the class labels: left or stay. An alternative is to output the class probability instead of the class label. This affords the management and human resource teams more flexibility as they can specify a customized probability threshold when deciding on intervention. But in this case, a log-loss metric needs to be used instead of the F2 score.      
 
 Also, there are more features relavent to this kind of problem in addition to the ones given in the dataset. Such features include, for example, the employee performance change as shown by the difference between an employee's last evaluation score and his/her average evaluation score, or the number of leaves the employee takes in the past 6 months, etc.   
 
