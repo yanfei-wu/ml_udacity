@@ -55,7 +55,7 @@ We can also obtain precision and recall from the classification results. Precisi
 
 In this specific problem, we are better off to make false positive classifications than predicting valuable employees who are actually leaving as staying and taking no actions. Therefore, we can use the F2 measure which weights recall higher than precision. 
 
-$$ F_{\beta} = (1 + \beta^2) \cdot \frac{precision \cdot recall}{\left( \beta^2 \cdot precision \right) + recall}, (\beta = 0.5)$$
+$$ F_{\beta} = (1 + \beta^2) \cdot \frac{precision \cdot recall}{\left( \beta^2 \cdot precision \right) + recall}, (\beta = 2)$$
 
 ### Project Design  
 
