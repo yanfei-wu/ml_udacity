@@ -18,8 +18,7 @@ This project was done using **Python 3.5** and the following Python libraries:
 
 ## Run  
 
-In a terminal or command window, navigate to the top-level project directory `smartcab/` (that contains this README) and run one of the following commands: 
+In a terminal or command window, navigate to the top-level project directory `smartcab/` (that contains this README) and run the following commands: 
 
 ```python smartcab/agent.py```  
-```python -m smartcab.agent``` 
 
