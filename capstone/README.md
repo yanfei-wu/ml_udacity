@@ -1,10 +1,10 @@
-# Capstone Project: Machine Learning for Employee Retention   
+# Machine Learning for Employee Retention   
 
 ## Overview 
 Build and optimize binary classification model to predict whether an employee with given features is leaving or not. Identify the most important features that lead to employee turnover. This project can provide actional insights to the management and human resource team to implement an effective employee retention program.    
 
 ## Libraries  
-This project was done using **Python 3.5** and the following Python libraries:  
+This project was done in **Python 3.5** environment with the following Python libraries:  
 
 - Numpy  
 - Pandas  
