@@ -1,7 +1,9 @@
 # Machine Learning for Employee Retention   
 
-## Overview 
-Build and optimize binary classification model to predict whether an employee with given features is leaving or not. Identify the most important features that lead to employee turnover. This project can provide actional insights to the management and human resource team to implement an effective employee retention program.    
+## Project Overview 
+
+This project outlines a supervised machine learning approach to help implement an effective employee retention program. Different classification algorithms including Logistic Regression, Linear Discriminant Analysis, Decision Trees, K-nearest Neighbors, Support Vector Machines, and Random Forest are built and compared. F2 score is selected as the performance metric in order to put more weights on recall. K-fold cross validation procedure is implemented to evaluate the models. Random Forest classifier is chosen as it gives the best cross validation F2 score. After further fine-tuning the hyperparameters, the final model shows excellent F2 score (0.97) and generalizes well to unseen data. Feature importance analysis reveals the top 5 features, including satisfaction level, employment time, number of projects, average working hours and last evaluation scores, which consist about 95% of the total importance.
+
 
 ## Libraries  
 This project was done in **Python 3.5** environment with the following Python libraries:  
